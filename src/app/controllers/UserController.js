@@ -20,6 +20,43 @@ class UserController {
       email,
     });
   }
+
+  // Atualiza o usuario
+  async update(req, res) {
+    // Pega o email e senha antiga
+    const { email, oldPassword } = req.body;
+    // Pega usuario pelo id
+    const user = await User.findByPk(req.userId);
+
+    // Verifica se o email é diferente do cadastrado no banco
+    if (email !== user.email) {
+      // Verifica se existe algum email já cadastrado
+      const userExist = await User.findOne({
+        where: { email },
+      });
+
+      // se o usuario existir da um bad request com msg de erro
+      if (userExist) {
+        return res.status(400).json({ error: 'Usuario já existe.' });
+      }
+    }
+
+    // Verifica se a senha foi alterada
+    // oldPassword && : se tiver preenchido o oldPassword ele...
+    // valida a senha !(await user.checkPassword(oldPassword))
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      return res.status(401).json({ error: 'Senha incorreta.' });
+    }
+
+    // Atualiza com os dados do body(insominia)
+    const { id, name } = await user.update(req.body);
+
+    return res.json({
+      id,
+      name,
+      email,
+    });
+  }
 }
 
 export default new UserController();

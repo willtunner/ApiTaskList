@@ -8,4 +8,5 @@
 8- inicia o eslint: yarn eslint --init ( configura os padrões de codigo )
 9- yarn add prettier eslint-config-prettier eslint-plugin-prettier -D (configura o eslint com prettier)
 10- yarn eslint --fix src --ext .js (Cria um fix padronizando todos os arquivos dentro de src)
+11- instala o yup: yarn add yup
 

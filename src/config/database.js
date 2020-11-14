@@ -2,8 +2,8 @@ module.exports = {
   dialect: 'postgres',
   host: 'localhost',
   username: 'postgres',
-  // password: 'root', // Linux
-  password: '29011967log*', // Logicom
+  password: 'root', // Linux
+  // password: '29011967log*', // Logicom
   // password: 'admin', // Windows
   database: 'tasklist',
   define: {
