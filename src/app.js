@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import routes from './routes';
 
 // importa o index dentro de database
@@ -13,6 +14,8 @@ class App {
   }
 
   middlewares() {
+    // Chama por primeiro, deixando em branco qualquer aplicação pode ter acesso
+    this.server.use(cors());
     this.server.use(express.json());
   }
 
