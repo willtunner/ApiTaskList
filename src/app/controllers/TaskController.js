@@ -37,6 +37,45 @@ class TaskController {
     // Retorna o objeta que criamos
     return res.json(tasks);
   }
+
+  async update(req, res) {
+    // pega o task_id vindo do routes como definimos
+    const { task_id } = req.params;
+
+    // Procura pelo id no banco de dados se existe
+    const task = await Task.findByPk(task_id);
+
+    // Se o id informado não existir
+    if (!task) {
+      return res.status(400).json({ error: 'Tarefa não existe ln:50' });
+    }
+
+    // Se o id for informado correto prossegue
+    // Prossegue para o update vindo pelo front para alterar para true a task
+    await task.update(req.body);
+
+    return res.json(task);
+  }
+
+  async delete(req, res) {
+    // Verifica se existe o task enviado pelo params
+    const { task_id } = req.params;
+    const task = await Task.findByPk(task_id);
+
+    // Se o id informado não existir
+    if (!task) {
+      return res.status(400).json({ error: 'Tarefa não existe ln:50' });
+    }
+
+    // Verifica se o idUser da task é o mesmo do ususriop logado
+    if (task.user_id !== req.userId) {
+      return res.status(401).json({ error: 'Requisicação não autorizada' });
+    }
+
+    // Exclui no banco
+    await task.destroy();
+    return res.send();
+  }
 }
 
 export default new TaskController();
